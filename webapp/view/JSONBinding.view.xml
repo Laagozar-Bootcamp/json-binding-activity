@@ -1,42 +1,45 @@
 <mvc:View controllerName="sapips.training.jsonbinding.controller.JSONBinding"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m"
-    xmlns:form="sap.ui.layout.form">
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    core:require="{formatter: 'sapips/training/jsonbinding/model/formatter'}">
     <Page id="page" title="{i18n>title}">
         <Panel id="panel1" headerText="Data Binding Basics" class="sapUiResponsiveMargin" width="auto">
-            <form:SimpleForm id="form1" layout="ResponsiveGridLayout" >
+            <form:SimpleForm id="form1" editable="true" layout="ResponsiveGridLayout" >
                 <form:content>
                     <Label id="eidLbl" text="EID"/>
-                    <Input id="eidInp" value="" enabled="true"/>
+                    <Input id="eidInp" value="{/EID}" enabled="{/Enabled}"/>
                     <Label id="enabLbl" text="Enabled"/>
-                    <CheckBox id="chkBox"/>
+                    <CheckBox id="chkBox" selected="{/Enabled}"/>
                 </form:content>
             </form:SimpleForm>
         </Panel>
         <Panel id="addPanel" headerText="Address Details" class="sapUiResponsiveMargin" width="auto">
-            <form:SimpleForm id="addForm" layout="ResponsiveGridLayout">
+            <form:SimpleForm id="addForm" editable="true" layout="ResponsiveGridLayout">
                 <Label id="addLbl" text="Address"/>
                 <Text id="addTxt"
-                      text="{/Address/Street} {/Address/Zip} {/Address/City} {/Address/Country}"
+                      text="{/Address/Street} {/Address/ZIP} {/Address/City} {/Address/Country}"
                       class="sapUiSmallMariginBottom"/>
                 <Link id="addLnk" text="Send Email" href="{ path: '/EID', formatter: '.formatter.formatMail'}"/>
                 <Label id="salesAmtLbl" text="Sales Amount" class="sapUiSmallMarginBegin"/>
-                <Input id="salesAmtInp" class="sapUiSmallMarginBegin" enabled="true" maxLength="8"
+                <Input id="salesAmtInp" class="sapUiSmallMarginBegin" enabled="{/Enabled}" maxLength="8"
                        description="{/CurrencyCode}" 
                        value="{ parts: [ {path: '/SalesAmount'}, {path: '/CurrencyCode'} ], 
                                 type: 'sap.ui.model.type.Currency', formatOptions: {showMeasure: false} }"/>
             </form:SimpleForm>
         </Panel>
         <Panel id="agBindPanel" headerText="Aggregation Binding" class="sapUiResponsiveMargin" width="auto">
-            <List id="addList">
+            <List id="addList" items="{ProductsModel>/Products}">
                 <items>
-                    <ObjectListItem id="objListItem" title="Product Name" 
+                    <ObjectListItem id="objListItem" press="onSelectItem"
+                        title="{ProductsModel>ProductName}" 
                         number="{ parts: [ {path: 'ProductsModel>UnitPrice'}, {path: '/CurrencyCode'} ], 
                         type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: false } }"
-                        numberUnit="CurrencyCode">
+                        numberUnit="{/CurrencyCode}">
 
                         <attributes>
-                            <ObjectAttribute id="objItemAtt1" text="Stock on Hand: QuantityPerUnit"/>
+                            <ObjectAttribute id="objItemAtt1" text="Stock on Hand: {ProductsModel>QuantityPerUnit}"/>
                             <ObjectAttribute id="objItemAtt2" title="Current Stock Value"
                                              text="{	parts: [
                                                         {path: 'ProductsModel>UnitPrice'},
@@ -50,20 +53,20 @@
             </List>
         </Panel>
         <Panel id="prodDetPanel" headerText="Product Details" class="sapUiResponsiveMargin" width="auto">
-            <form:SimpleForm id="prodDetForm" layout="ResponsiveGridLayout">
+            <form:SimpleForm id="prodDetForm" editable="true" layout="ResponsiveGridLayout">
                 <form:content>
                     <Label id="prdIdLbl" text="Product ID"/>
-                    <Input id="prdIdInp" value="ProductId"/>
+                    <Input id="prdIdInp" value="{ProductsModel>ProductID}"/>
                     <Label id="prdNameLbl" text="Product Name"/>
-                    <Input id="prdNameImp" value="ProductName"/>
+                    <Input id="prdNameImp" value="{ProductsModel>ProductName}"/>
                     <Label id="qtyLbl" text="Quantity Per Unit"/>
-                    <Input id="qtyInp" value="QuantityPerUnit"/>
+                    <Input id="qtyInp" value="{ProductsModel>QuantityPerUnit}"/>
                     <Label id="unitPrcLbl" text="Unit Price"/>
-                    <Input id="unitPrcInp" value="UnitPtice"/>
+                    <Input id="unitPrcInp" value="{ProductsModel>UnitPrice}"/>
                     <Label id="unitStkBlb" text="Units In Stock"/>
-                    <Input id="unitStkInp" value="UnitsInStock"/>
+                    <Input id="unitStkInp" value="{ProductsModel>UnitsInStock}"/>
                     <Label id="discLbl" text="Discontinued"/>
-                    <Input id="discInp" value="Discontinued"/>
+                    <Input id="discInp" value="{ProductsModel>Discontinued}"/>
                 </form:content>
             </form:SimpleForm>
         </Panel>
