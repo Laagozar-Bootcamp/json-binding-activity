@@ -1,0 +1,71 @@
+<mvc:View controllerName="sapips.training.jsonbinding.controller.JSONBinding"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form">
+    <Page id="page" title="{i18n>title}">
+        <Panel id="panel1" headerText="Data Binding Basics" class="sapUiResponsiveMargin" width="auto">
+            <form:SimpleForm id="form1" layout="ResponsiveGridLayout" >
+                <form:content>
+                    <Label id="eidLbl" text="EID"/>
+                    <Input id="eidInp" value="" enabled="true"/>
+                    <Label id="enabLbl" text="Enabled"/>
+                    <CheckBox id="chkBox"/>
+                </form:content>
+            </form:SimpleForm>
+        </Panel>
+        <Panel id="addPanel" headerText="Address Details" class="sapUiResponsiveMargin" width="auto">
+            <form:SimpleForm id="addForm" layout="ResponsiveGridLayout">
+                <Label id="addLbl" text="Address"/>
+                <Text id="addTxt"
+                      text="{/Address/Street} {/Address/Zip} {/Address/City} {/Address/Country}"
+                      class="sapUiSmallMariginBottom"/>
+                <Link id="addLnk" text="Send Email" href="{ path: '/EID', formatter: '.formatter.formatMail'}"/>
+                <Label id="salesAmtLbl" text="Sales Amount" class="sapUiSmallMarginBegin"/>
+                <Input id="salesAmtInp" class="sapUiSmallMarginBegin" enabled="true" maxLength="8"
+                       description="{/CurrencyCode}" 
+                       value="{ parts: [ {path: '/SalesAmount'}, {path: '/CurrencyCode'} ], 
+                                type: 'sap.ui.model.type.Currency', formatOptions: {showMeasure: false} }"/>
+            </form:SimpleForm>
+        </Panel>
+        <Panel id="agBindPanel" headerText="Aggregation Binding" class="sapUiResponsiveMargin" width="auto">
+            <List id="addList">
+                <items>
+                    <ObjectListItem id="objListItem" title="Product Name" 
+                        number="{ parts: [ {path: 'ProductsModel>UnitPrice'}, {path: '/CurrencyCode'} ], 
+                        type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: false } }"
+                        numberUnit="CurrencyCode">
+
+                        <attributes>
+                            <ObjectAttribute id="objItemAtt1" text="Stock on Hand: QuantityPerUnit"/>
+                            <ObjectAttribute id="objItemAtt2" title="Current Stock Value"
+                                             text="{	parts: [
+                                                        {path: 'ProductsModel>UnitPrice'},
+                                                        {path: 'ProductsModel>UnitsInStock'},
+                                                        {path: '/CurrencyCode'}
+                                                        ],
+                                                        formatter: 'formatter.formatStockValue' }"/>
+                        </attributes>
+                    </ObjectListItem>
+                </items>
+            </List>
+        </Panel>
+        <Panel id="prodDetPanel" headerText="Product Details" class="sapUiResponsiveMargin" width="auto">
+            <form:SimpleForm id="prodDetForm" layout="ResponsiveGridLayout">
+                <form:content>
+                    <Label id="prdIdLbl" text="Product ID"/>
+                    <Input id="prdIdInp" value="ProductId"/>
+                    <Label id="prdNameLbl" text="Product Name"/>
+                    <Input id="prdNameImp" value="ProductName"/>
+                    <Label id="qtyLbl" text="Quantity Per Unit"/>
+                    <Input id="qtyInp" value="QuantityPerUnit"/>
+                    <Label id="unitPrcLbl" text="Unit Price"/>
+                    <Input id="unitPrcInp" value="UnitPtice"/>
+                    <Label id="unitStkBlb" text="Units In Stock"/>
+                    <Input id="unitStkInp" value="UnitsInStock"/>
+                    <Label id="discLbl" text="Discontinued"/>
+                    <Input id="discInp" value="Discontinued"/>
+                </form:content>
+            </form:SimpleForm>
+        </Panel>
+    </Page>
+</mvc:View>
