@@ -31,14 +31,14 @@
         </Panel>
         <Panel id="agBindPanel" headerText="Aggregation Binding" class="sapUiResponsiveMargin" width="auto">
             <List id="addList" items="{ProductsModel>/Products}">
-                <items>
-                    <ObjectListItem id="objListItem" press="onSelectItem"
+                    <ObjectListItem id="objListItem" 
                         title="{ProductsModel>ProductName}" 
+                        type="Active"
+                        press="onSelectItem"
                         number="{ parts: [ {path: 'ProductsModel>UnitPrice'}, {path: '/CurrencyCode'} ], 
                         type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: false } }"
                         numberUnit="{/CurrencyCode}">
 
-                        <attributes>
                             <ObjectAttribute id="objItemAtt1" text="Stock on Hand: {ProductsModel>QuantityPerUnit}"/>
                             <ObjectAttribute id="objItemAtt2" title="Current Stock Value"
                                              text="{	parts: [
@@ -47,9 +47,7 @@
                                                         {path: '/CurrencyCode'}
                                                         ],
                                                         formatter: 'formatter.formatStockValue' }"/>
-                        </attributes>
                     </ObjectListItem>
-                </items>
             </List>
         </Panel>
         <Panel id="prodDetPanel" headerText="Product Details" class="sapUiResponsiveMargin" width="auto">
